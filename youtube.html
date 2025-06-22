@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Player</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    #player iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Big play button overlay centered perfectly */
+    #custom-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.3s ease;
+    }
+
+    #custom-play:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Play icon style */
+    #custom-play::before {
+      content: '';
+      display: inline-block;
+      margin-left: 5px;
+      border-style: solid;
+      border-width: 15px 0 15px 25px;
+      border-color: transparent transparent transparent white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="plyr__video-embed" id="player">
+    <iframe id="player-iframe" allowfullscreen allow="autoplay"></iframe>
+    <button id="custom-play" aria-label="Play video"></button>
+  </div>
+
+  <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+  <script>
+    function getURLParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    const videoId = getURLParameter('id');
+
+    if (videoId) {
+      const iframe = document.querySelector('#player iframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?origin=*&enablejsapi=1`;
+
+      const player = new Plyr('#player', {
+        controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+        youtube: { noCookie: true },
+      });
+
+      const playBtn = document.getElementById('custom-play');
+
+      playBtn.addEventListener('click', () => {
+        player.play();
+        playBtn.style.display = 'none'; // Hide after playing
+      });
+    } else {
+      alert('No video ID provided in the URL. Please use ?id=YOUR_VIDEO_ID');
+    }
+  </script>
+
+</body>
+</html>
