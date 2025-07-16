@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>M3U8 Player Embed + TinyURL</title>
+  <title>TinyURL Player </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -40,40 +40,26 @@
     }
 
     .share-box {
-      display: flex;
-      align-items: center;
+      margin-bottom: 20px;
       background: #fff;
       padding: 12px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      margin-bottom: 20px;
       font-family: monospace;
       font-size: 15px;
-    }
-
-    #shortLink {
-      flex: 1;
-      word-break: break-word;
-    }
-
-    .copy-button {
-      margin-left: 10px;
-      padding: 8px 14px;
-      background: #007bff;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
       cursor: pointer;
-      font-family: Arial, sans-serif;
+      user-select: all;
+    }
+
+    .share-box:hover {
+      background: #eef6ff;
     }
   </style>
 </head>
 <body>
 
-  <div id="shortLinkContainer" class="share-box" style="display: none;">
+  <div id="shortLinkContainer" class="share-box" ondblclick="copyShortLink()" style="display: none;">
     <div id="shortLink">Generating...</div>
-    <button class="copy-button" onclick="copyShortLink()">Copy</button>
   </div>
 
   <input type="text" id="m3u8Input" placeholder="Enter full .m3u8 URL here" />
@@ -97,7 +83,7 @@
       `;
 
       // Show short link section
-      document.getElementById('shortLinkContainer').style.display = "flex";
+      document.getElementById('shortLinkContainer').style.display = "block";
       document.getElementById('shortLink').textContent = "Generating...";
 
       // Fetch TinyURL
